@@ -338,7 +338,7 @@ resource "aws_kms_key" "sns_encryption" {
 }
 
 # Update the existing SNS topic to use KMS encryption
-resource "aws_sns_topic" "s3_events" {
+resource "aws_sns_topic" "s3_events1" {
   name              = "${local.name_prefix}-s3-events-${local.account_id}"
   kms_master_key_id = aws_kms_key.sns_encryption.id
 }
@@ -350,7 +350,7 @@ resource "aws_kms_key" "s3_encryption" {
   enable_key_rotation     = true
 }
 
-resource "aws_s3_bucket_server_side_encryption_configuration" "s3_tf" {
+resource "aws_s3_bucket_server_side_encryption_configuration" "s3_tf1" {
   bucket = aws_s3_bucket.s3_tf.id
 
   rule {
@@ -362,14 +362,14 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "s3_tf" {
 }
 
 # Create KMS key for S3 encryption
-resource "aws_kms_key" "s3_encryption" {
+resource "aws_kms_key" "s3_encryption1" {
   description             = "KMS key for S3 bucket encryption"
   deletion_window_in_days = 7
   enable_key_rotation     = true
 }
 
 # Main bucket encryption
-resource "aws_s3_bucket_server_side_encryption_configuration" "s3_tf" {
+resource "aws_s3_bucket_server_side_encryption_configuration" "s3_tf1" {
   bucket = aws_s3_bucket.s3_tf.id
 
   rule {
@@ -394,7 +394,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "s3_tf_replica" {
 }
 
 # Access logs bucket
-resource "aws_s3_bucket" "access_logs" {
+resource "aws_s3_bucket" "access_logs1" {
   bucket = "${local.name_prefix}-s3-access-logs-${local.account_id}"
   tags = {
     Name = "access-logs"
@@ -402,13 +402,13 @@ resource "aws_s3_bucket" "access_logs" {
 }
 
 # Access logs bucket ACL
-resource "aws_s3_bucket_acl" "access_logs_acl" {
+resource "aws_s3_bucket_acl" "access_logs_acl1" {
   bucket = aws_s3_bucket.access_logs.id
   acl    = "log-delivery-write"
 }
 
 # Main bucket logging
-resource "aws_s3_bucket_logging" "s3_tf_logging" {
+resource "aws_s3_bucket_logging" "s3_tf_logging1" {
   bucket        = aws_s3_bucket.s3_tf.id
   target_bucket = aws_s3_bucket.access_logs.id
   target_prefix = "s3_tf/"
@@ -423,13 +423,13 @@ resource "aws_s3_bucket_logging" "s3_tf_replica_logging" {
 }
 
 # SNS Topic for S3 events
-resource "aws_sns_topic" "s3_events" {
+resource "aws_sns_topic" "s3_events1" {
   name              = "${local.name_prefix}-s3-events-${local.account_id}"
   kms_master_key_id = aws_kms_key.sns_encryption.id
 }
 
 # SNS Topic Policy
-resource "aws_sns_topic_policy" "allow_s3" {
+resource "aws_sns_topic_policy" "allow_s31" {
   arn = aws_sns_topic.s3_events.arn
 
   policy = jsonencode({
@@ -475,13 +475,13 @@ resource "aws_s3_bucket_notification" "s3_tf_replica_notification" {
 }
 
 # SNS Topic with KMS encryption
-resource "aws_sns_topic" "s3_events" {
+resource "aws_sns_topic" "s3_events1" {
   name              = "${local.name_prefix}-s3-events-${local.account_id}"
   kms_master_key_id = aws_kms_key.sns_encryption.id
 }
 
 # SNS Topic Policy allowing S3 to publish
-resource "aws_sns_topic_policy" "allow_s3" {
+resource "aws_sns_topic_policy" "allow_s31" {
   arn = aws_sns_topic.s3_events.arn
 
   policy = jsonencode({
@@ -507,7 +507,7 @@ resource "aws_sns_topic_policy" "allow_s3" {
 }
 
 # Main bucket notification
-resource "aws_s3_bucket_notification" "s3_tf_notification" {
+resource "aws_s3_bucket_notification" "s3_tf_notification1" {
   bucket = aws_s3_bucket.s3_tf.id
 
   topic {
@@ -519,7 +519,7 @@ resource "aws_s3_bucket_notification" "s3_tf_notification" {
 }
 
 # Replica bucket notification
-resource "aws_s3_bucket_notification" "s3_tf_replica_notification" {
+resource "aws_s3_bucket_notification" "s3_tf_replica_notification1" {
   provider = aws.replica
   bucket   = aws_s3_bucket.s3_tf_replica.id
 
@@ -532,7 +532,7 @@ resource "aws_s3_bucket_notification" "s3_tf_replica_notification" {
 }
 
 # Main bucket public access block
-resource "aws_s3_bucket_public_access_block" "s3_tf_block" {
+resource "aws_s3_bucket_public_access_block" "s3_tf_block1" {
   bucket = aws_s3_bucket.s3_tf.id
 
   block_public_acls       = true
@@ -553,7 +553,7 @@ resource "aws_s3_bucket_public_access_block" "s3_tf_replica_block" {
 }
 
 # Access logs bucket public access block
-resource "aws_s3_bucket_public_access_block" "access_logs_block" {
+resource "aws_s3_bucket_public_access_block" "access_logs_block1" {
   bucket = aws_s3_bucket.access_logs.id
 
   block_public_acls       = true
@@ -563,7 +563,7 @@ resource "aws_s3_bucket_public_access_block" "access_logs_block" {
 }
 
 # Account-level public access block
-resource "aws_s3_account_public_access_block" "account_block" {
+resource "aws_s3_account_public_access_block" "account_block1" {
   block_public_acls       = true
   block_public_policy     = true
   ignore_public_acls      = true
@@ -571,7 +571,7 @@ resource "aws_s3_account_public_access_block" "account_block" {
 }
 
 # Main bucket versioning
-resource "aws_s3_bucket_versioning" "s3_tf_versioning" {
+resource "aws_s3_bucket_versioning" "s3_tf_versioning1" {
   bucket = aws_s3_bucket.s3_tf.id
 
   versioning_configuration {
@@ -580,7 +580,7 @@ resource "aws_s3_bucket_versioning" "s3_tf_versioning" {
 }
 
 # Replica bucket versioning
-resource "aws_s3_bucket_versioning" "s3_tf_replica_versioning" {
+resource "aws_s3_bucket_versioning" "s3_tf_replica_versioning1" {
   provider = aws.replica
   bucket   = aws_s3_bucket.s3_tf_replica.id
 
@@ -658,7 +658,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "access_logs_lifecycle" {
 // ...existing code...
 
 # Main bucket lifecycle
-resource "aws_s3_bucket_lifecycle_configuration" "s3_tf_lifecycle" {
+resource "aws_s3_bucket_lifecycle_configuration" "s3_tf_lifecycle1" {
   bucket = aws_s3_bucket.s3_tf.id
 
   rule {
@@ -686,7 +686,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "s3_tf_lifecycle" {
 }
 
 # Replica bucket lifecycle
-resource "aws_s3_bucket_lifecycle_configuration" "s3_tf_replica_lifecycle" {
+resource "aws_s3_bucket_lifecycle_configuration" "s3_tf_replica_lifecycle1" {
   provider = aws.replica
   bucket   = aws_s3_bucket.s3_tf_replica.id
 
@@ -715,7 +715,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "s3_tf_replica_lifecycle" {
 }
 
 # Access logs bucket lifecycle
-resource "aws_s3_bucket_lifecycle_configuration" "access_logs_lifecycle" {
+resource "aws_s3_bucket_lifecycle_configuration" "access_logs_lifecycle1" {
   bucket = aws_s3_bucket.access_logs.id
 
   rule {
@@ -743,19 +743,19 @@ resource "aws_s3_bucket_lifecycle_configuration" "access_logs_lifecycle" {
 }
 
 # Provider for replica region
-provider "aws" {
+provider "aws1" {
   alias  = "replica"
   region = "us-west-2"
 }
 
 # Destination (replica) bucket
-resource "aws_s3_bucket" "s3_tf_replica" {
+resource "aws_s3_bucket" "s3_tf_replica1" {
   provider = aws.replica
   bucket   = "${local.name_prefix}-s3-tf-bkt-replica-${local.account_id}"
 }
 
 # IAM role for replication
-resource "aws_iam_role" "s3_replication_role" {
+resource "aws_iam_role" "s3_replication_role1" {
   name = "${local.name_prefix}-s3-replication-role-${local.account_id}"
 
   assume_role_policy = jsonencode({
@@ -771,7 +771,7 @@ resource "aws_iam_role" "s3_replication_role" {
 }
 
 # IAM role policy for replication
-resource "aws_iam_role_policy" "s3_replication_policy" {
+resource "aws_iam_role_policy" "s3_replication_policy1" {
   role = aws_iam_role.s3_replication_role.id
 
   policy = jsonencode({
@@ -812,7 +812,7 @@ resource "aws_iam_role_policy" "s3_replication_policy" {
 }
 
 # Replication configuration
-resource "aws_s3_bucket_replication_configuration" "s3_tf_replication" {
+resource "aws_s3_bucket_replication_configuration" "s3_tf_replication1" {
   bucket = aws_s3_bucket.s3_tf.id
   role   = aws_iam_role.s3_replication_role.arn
 
