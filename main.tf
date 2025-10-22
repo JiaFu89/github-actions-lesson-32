@@ -73,9 +73,9 @@ resource "aws_s3_bucket_notification" "s3_notification" {
   }
 }
 
-resource "aws_s3_bucket" "s3_tf" {
+/* resource "aws_s3_bucket" "s3_tf" {
   bucket = "${local.name_prefix}-s3-tf-bkt-${local.account_id}"
-}
+}*/
 
 resource "aws_s3_bucket_logging" "s3_tf_logging" {
   bucket        = aws_s3_bucket.s3_tf.id
@@ -95,9 +95,9 @@ resource "aws_s3_bucket_acl" "access_logs_acl" {
   acl    = "log-delivery-write"
 }
 
-resource "aws_s3_bucket" "s3_tf" {
+/*resource "aws_s3_bucket" "s3_tf" {
   bucket = "${local.name_prefix}-s3-tf-bkt-${local.account_id}"
-}
+}*/
 
 resource "aws_s3_bucket_public_access_block" "s3_tf_block" {
   bucket = aws_s3_bucket.s3_tf.id
@@ -125,39 +125,39 @@ resource "aws_s3_account_public_access_block" "account_block" {
   restrict_public_buckets = true
 }
 
-resource "aws_s3_bucket_public_access_block" "s3_tf_block" {
+/*resource "aws_s3_bucket_public_access_block" "s3_tf_block" {
   bucket = aws_s3_bucket.s3_tf.id
 
   block_public_acls       = true
   block_public_policy     = true
   ignore_public_acls      = true
   restrict_public_buckets = true
-}
+}*/
 
-resource "aws_s3_bucket_public_access_block" "access_logs_block" {
+/*resource "aws_s3_bucket_public_access_block" "access_logs_block" {
   bucket = aws_s3_bucket.access_logs.id
 
   block_public_acls       = true
   block_public_policy     = true
   ignore_public_acls      = true
   restrict_public_buckets = true
-}
+}*/
 
 # Optional: enforce at account level (recommended)
-resource "aws_s3_account_public_access_block" "account_block" {
+/*resource "aws_s3_account_public_access_block" "account_block" {
   block_public_acls       = true
   block_public_policy     = true
   ignore_public_acls      = true
   restrict_public_buckets = true
-}
+}*/
 
-resource "aws_s3_bucket" "s3_tf" {
+/*resource "aws_s3_bucket" "s3_tf" {
   bucket = "${local.name_prefix}-s3-tf-bkt-${local.account_id}"
 
   lifecycle {
     prevent_destroy = false
   }
-}
+}*/
 
 resource "aws_s3_bucket_lifecycle_configuration" "s3_tf_lifecycle" {
   bucket = aws_s3_bucket.s3_tf.id
