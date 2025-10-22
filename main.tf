@@ -475,7 +475,7 @@ resource "aws_s3_bucket_notification" "s3_tf_replica_notification" {
 }
 
 # SNS Topic with KMS encryption
-resource "aws_sns_topic" "s3_events2" {
+resource "aws_sns_topic" "s3_events3" {
   name              = "${local.name_prefix}-s3-events-${local.account_id}"
   kms_master_key_id = aws_kms_key.sns_encryption.id
 }
