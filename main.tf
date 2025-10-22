@@ -743,10 +743,10 @@ resource "aws_s3_bucket_lifecycle_configuration" "access_logs_lifecycle1" {
 }
 
 # Provider for replica region
-provider "aws1" {
+/*provider "aws1" {
   alias  = "replica"
   region = "us-west-2"
-}
+}*/
 
 # Destination (replica) bucket
 resource "aws_s3_bucket" "s3_tf_replica1" {
