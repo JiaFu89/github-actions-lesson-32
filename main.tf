@@ -369,7 +369,7 @@ resource "aws_kms_key" "s3_encryption1" {
 }
 
 # Main bucket encryption
-resource "aws_s3_bucket_server_side_encryption_configuration" "s3_tf1" {
+resource "aws_s3_bucket_server_side_encryption_configuration" "s3_tf2" {
   bucket = aws_s3_bucket.s3_tf.id
 
   rule {
@@ -423,7 +423,7 @@ resource "aws_s3_bucket_logging" "s3_tf_replica_logging" {
 }
 
 # SNS Topic for S3 events
-resource "aws_sns_topic" "s3_events1" {
+resource "aws_sns_topic" "s3_events2" {
   name              = "${local.name_prefix}-s3-events-${local.account_id}"
   kms_master_key_id = aws_kms_key.sns_encryption.id
 }
@@ -475,13 +475,13 @@ resource "aws_s3_bucket_notification" "s3_tf_replica_notification" {
 }
 
 # SNS Topic with KMS encryption
-resource "aws_sns_topic" "s3_events1" {
+resource "aws_sns_topic" "s3_events2" {
   name              = "${local.name_prefix}-s3-events-${local.account_id}"
   kms_master_key_id = aws_kms_key.sns_encryption.id
 }
 
 # SNS Topic Policy allowing S3 to publish
-resource "aws_sns_topic_policy" "allow_s31" {
+resource "aws_sns_topic_policy" "allow_s32" {
   arn = aws_sns_topic.s3_events.arn
 
   policy = jsonencode({
