@@ -20,7 +20,7 @@ terraform {
 data "aws_caller_identity" "current" {}
 
 locals {
-  name_prefix = split("/", "${data.aws_caller_identity.current.arn}")[1] #if your name contains any invalid characters like “.”, hardcode this name_prefix value = <YOUR NAME>
+  name_prefix = split("/", data.aws_caller_identity.current.arn)[1] #if your name contains any invalid characters like “.”, hardcode this name_prefix value = <YOUR NAME>
   account_id  = data.aws_caller_identity.current.account_id
 }
 
